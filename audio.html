@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Nhạc nền RunGod</title>
+<link rel="icon" type="image/png" href="images/I/rungod.png">
+<script>
+let audio;
+window.onload = function() {
+    audio = new Audio('audio/theme.mp3');
+    audio.loop = true;      // Lặp tự động
+    audio.volume = 0.6;
+    audio.play().catch(err => {
+        console.warn("Trình duyệt chặn autoplay. Cần click trước khi phát nhạc.");
+    });
+
+    // Nghe tín hiệu từ localStorage để tắt/bật nhạc
+    window.addEventListener("storage", (event) => {
+        if (event.key === "musicControl") {
+            if (event.newValue === "pause") audio.pause();
+            if (event.newValue === "play") audio.play();
+        }
+    });
+};
+</script>
+</head>
+<body style="background:#000;color:white;text-align:center;padding:20px;">
+Nhạc nền đang phát... 🎵
+</body>
+</html>

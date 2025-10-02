@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="images/I/rungod.png">
+<title>Menu chính - RunGod</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('images/N/NM.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: Arial, sans-serif;
+    }
+
+    .overlay {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        gap: 20px;
+    }
+
+    .info {
+        width: 220px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        padding: 20px;
+        border-radius: 15px;
+        color: rgb(0, 0, 0);
+        font-size: 16px;
+    }
+
+    .left-info {
+        text-align: left;
+    }
+
+    .right-info {
+        text-align: left;
+    }
+
+    .glass-box {
+        background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        align-items: center;
+    }
+
+    h1 {
+        color: rgb(0, 0, 0);
+        grid-column: span 2;
+        margin-bottom: 20px;
+    }
+
+    .btn-img {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+    }
+
+    .btn-img img {
+        width: 160px; /* to hơn */
+        height: auto;
+        transition: transform 0.2s ease;
+    }
+
+    .btn-img img:hover {
+        transform: scale(1.1);
+    }
+
+    .btn-label {
+        margin-top: 8px;
+        font-size: 18px;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+    }
+
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        padding: 10px 20px;
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        font-size: 20px;
+    }
+
+    .toast.show {
+        opacity: 1;
+    }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+    <div class="info left-info">
+        <h2>Thông tin game</h2>
+        <p><strong>Tựa game:</strong> RunGod</p>
+        <p><strong>Phiên bản:</strong>R.2008</p>
+        <p><strong>Nhà phát triển:</strong> Táo Bắc Việt Team</p>
+        <p><strong>Ngày ra mắt:</strong> 05/10/2025</p>
+    </div>
+
+    <div class="glass-box">
+        <h1 id="welcomeText">Chào mừng người chơi!</h1>
+
+        <button class="btn-img" onclick="startGame()">
+            <img src="images/N/startgame.png" alt="Bắt đầu game">
+            <span class="btn-label">Bắt đầu</span>
+        </button>
+
+        <button class="btn-img" onclick="selectCharacter()">
+            <img src="images/N/nv.png" alt="Chọn nhân vật">
+            <span class="btn-label">Chọn nhân vật</span>
+        </button>
+
+        <button class="btn-img" onclick="shareGame()">
+            <img src="images/N/share.png" alt="Chia sẻ game">
+            <span class="btn-label">Chia sẻ</span>
+        </button>
+
+        <button class="btn-img" id="musicBtn" onclick="toggleMusic()">
+            <img src="images/N/of.png" alt="Tắt nhạc" id="musicIcon">
+            <span class="btn-label">Nhạc nền</span>
+        </button>
+    </div>
+
+    <div class="info right-info">
+        <h2>Hướng dẫn</h2>
+        <p>1. Nhấn "Bắt đầu game" để chơi.</p>
+        <p>2. Chọn nhân vật yêu thích.</p>
+        <p>3. Sử dụng kỹ năng để vượt thử thách.</p>
+        <p>4. Chia sẻ link game cho bạn bè!</p>
+    </div>
+</div>
+
+<div class="toast" id="toastMsg"></div>
+
+<script>
+    const stored = localStorage.getItem('playerName');
+    const playerName = stored && stored.length ? stored : 'Người chơi';
+    document.getElementById('welcomeText').innerText =
+        `Chào mừng ${playerName} đến với game RunGod!`;
+
+    const musicIcon = document.getElementById("musicIcon");
+    let isMusicOn = true;
+
+    function startGame() {
+        window.location.href = "game.html";
+    }
+
+    function selectCharacter() {
+        window.location.href = "nv.html";
+    }
+
+    function shareGame() {
+        const gameLink = "https://tbvteam.github.io/RUNGOD/";
+        navigator.clipboard.writeText(gameLink).then(() => {
+            showToast("Đã sao chép link game!");
+        });
+    }
+
+    function toggleMusic() {
+        if (isMusicOn) {
+            localStorage.setItem("musicControl", "pause");
+            musicIcon.src = "images/N/on.png";
+            showToast("Đã tắt nhạc nền");
+        } else {
+            localStorage.setItem("musicControl", "play");
+            musicIcon.src = "images/N/of.png";
+            showToast("Đã bật nhạc nền");
+        }
+        isMusicOn = !isMusicOn;
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById("toastMsg");
+        toast.innerText = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>

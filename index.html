@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" type="image/png" href="images/I/rungod.png">
+  <title>RunGod game - TBV Team</title>
+  <style>
+    :root {
+      --glass-bg: rgba(109, 105, 105, 0.08);
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --muted: #000000;
+      --maxw: 1100px;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color: #0b0b0b;
+    }
+    * { box-sizing: border-box }
+    html, body { height: 100%; margin: 0 }
+
+    /* Background image */
+    body {
+      background-image: url('images/N/NM.png'); /* đổi tên nếu khác */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: var(--maxw);
+      backdrop-filter: blur(6px) saturate(120%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.45);
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 26px 18px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    .title-img {
+      height: 200px;
+      object-fit: contain;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 420px 1fr;
+      gap: 28px;
+      padding: 28px;
+      align-items: start;
+    }
+
+    .panel {
+    background: var(--glass-bg);
+    border-radius: 12px;
+    padding: 18px;
+    min-height: 260px;
+    color: #000; /* đổi sang chữ đen */
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 6px 18px rgba(2,6,23,0.3);
+  }
+    .panel h3 { margin: 0 0 12px 0; font-size: 18px }
+    .panel p { margin: 0 0 8px 0; line-height: 1.45; color: var(--muted) }
+
+    .login-card {
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border-radius: 20px;
+      padding: 22px;
+   
+      min-height: 260px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(10,10,20,0.15);
+    }
+    .login-card h2 { margin: 0 0 12px; font-size: 20px }
+    .hint { color: var(--muted); font-size: 13px; margin-bottom: 18px }
+
+    .input-row { display: flex; gap: 10px; align-items: center; justify-content: center ; }
+    .input-row input {
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(10,10,20,0.06);
+      width: 500px;
+      font-size: 15px;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    
+    .small-note { font-size: 12px; color: var(--muted); margin-top: 12px }
+/* Container của nút */
+.btn-container {
+  display: flex;
+  justify-content: center; /* căn giữa ngang */
+  margin-top: 15px;        /* khoảng cách với khung nhập */
+}
+
+.img-btn {
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Căn giữa */
+  height: 80px;
+  width: 120px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.img-btn img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 15px;
+      padding: 12px 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.04);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    }
+    .copyright { display: flex; align-items: center; gap: 10px; color: #e9eef8; font-size: 13px }
+    .logo-img {
+      height: 64px;
+      width: 64px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    @media (max-width:1050px) {
+      main { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="game-title">
+        <img src="images/N/name.png" alt="RunGod" class="title-img" />
+      </div>
+    </header>
+
+    <main>
+      <aside class="panel">
+        <h3></strong>Tác giả , Đối tác của game</strong></h3>
+        <p>Nhà sản xuất : Táo Bắc Việt Team</p>
+        <p>Ý tưởng sản xuất : Nguyễn Vũ Tạo(Táo Bắc Việt Team).</p>
+        <p>Viết code : Táo Bắc Việt Studio</p>
+        <p>Music : NVT Studio và FL Studio</p>
+        <p>Đối tác hình ảnh : Canva , bgremote , Chatgpt</p>
+        <p>Đối tác code : Virual code studio </p>
+      
+      </aside>
+
+     <section class="login-card">
+  <h2>Đăng nhập</h2>
+  <div class="hint">Nhập tên người chơi (tối đa 16 ký tự)</div>
+
+  <!-- Ô nhập tên -->
+  <div class="input-row">
+    <input type="text" id="playerName" placeholder="Nhập tên người chơi" maxlength="16" />
+  </div>
+
+  <!-- Nút Start căn giữa -->
+  <div class="btn-container">
+     <button class="img-btn" id="startBtn">
+      <img src="images/N/start.png" alt="Start">
+    </button>
+  </div>
+
+  <div class="small-note">Tên sẽ được lưu vào thiết bị.</div>
+</section>
+
+      <aside class="panel">
+        <h3>Giới thiệu RunGod</h3>
+        <p><strong>Cách chơi</strong>: Điều khiển nhân vật né , nhảy qua , phá vỡ chướng ngại,lấy được thuốc thần kích hoạt chiêu thức của chính nhân vật bạn đang chọn.</p>
+        <p><strong>Cốt truyện</strong>: Thế giới bị một thế lực hắc ám thống lĩnh , các nhân vật ở trong đây bị chúng bắt , tra tấn . Một cuộc chạy trốn chưa tính tới của họ đã được bắt đầu . Hãy giúp họ !</p>
+       
+      </aside>
+    </main>
+
+    <footer>
+      <div class="copyright">
+        <img src="images/N/logo.png" alt="Táo Bắc Việt Logo" class="logo-img" />
+        <div>
+          <div style="font-size:20px;color:var(--muted)"<strong>Táo Bắc Việt Studio</strong></div>
+          <div style="font-size:12px;color:var(--muted)">© Bản quyền game thuộc về Táo Bắc Việt Team</div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const input = document.getElementById('playerName');
+    const btn = document.getElementById('startBtn');
+
+    function showToast(message) {
+      const t = document.createElement('div');
+      t.textContent = message;
+      t.style.position = 'fixed';
+      t.style.left = '50%';
+      t.style.transform = 'translateX(-50%)';
+      t.style.bottom = '28px';
+      t.style.padding = '10px 16px';
+      t.style.background = 'rgba(0,0,0,0.75)';
+      t.style.color = 'white';
+      t.style.borderRadius = '8px';
+      t.style.zIndex = 9999;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2200);
+    }
+
+    btn.addEventListener('click', () => {
+  const name = input.value.trim();
+  if (!name) {
+    showToast('Vui lòng nhập tên người chơi.');
+    input.focus();
+    return;
+  }
+  localStorage.setItem('playerName', name);
+  showToast('Chào ' + name + '! Đang vào game...');
+
+  // Mở nhạc nền (cửa sổ nhỏ)
+  window.open('audio.html', 'musicWindow', 'width=200,height=100');
+
+  setTimeout(() => {
+    window.location.href = 'menu.html';
+  }, 1500);
+});
+
+window.addEventListener('load', () => {
+  const existing = localStorage.getItem('playerName');
+  if (existing) input.value = existing;
+});
+  </script>
+</body>
+</html>

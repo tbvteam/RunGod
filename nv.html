@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="images/I/rungod.png">
+<title>Chọn Nhân Vật</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: url('images/N/NM.png') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+    }
+
+    /* Nút về menu */
+    .back-button {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        cursor: pointer;
+    }
+    .back-button img {
+        width: 100px;
+        height: auto;
+    }
+
+    /* Nút bắt đầu */
+    .start-button {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
+    }
+    .start-button img {
+        width: 100px;
+        height: auto;
+    }
+
+    /* Lưới nhân vật */
+    .character-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        padding: 100px 40px;
+    }
+
+    /* Thẻ nhân vật */
+    .character-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        border-radius: 15px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .character-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+    .character-name {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 8px 0;
+    }
+    .info-button, .select-button {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+    .info-button {
+        background: rgba(255, 255, 255, 0.3);
+        color: rgb(0, 0, 0);
+    }
+    .select-button {
+        background: #ffffff;
+        color: rgb(0, 0, 0);
+    }
+    .info-button:hover {
+        background: rgba(255,255,255,0.5);
+    }
+    .select-button:hover {
+        background: #ffffff;
+    }
+
+    /* Popup */
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    .popup-content {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        width: 90%;
+        max-width: 600px;
+        text-align: center;
+        color: white;
+        position: relative;
+    }
+    .popup-content img {
+        width: 200px;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    .popup-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: white;
+    }
+
+    /* Thông báo chọn */
+    .toast {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px 15px;
+        border-radius: 10px;
+        backdrop-filter: blur(5px);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 0.3s;
+        z-index: 2000;
+    }
+    .toast img {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+    }
+    .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+</head>
+<body>
+
+<!-- Nút về menu -->
+<a href="menu.html" class="back-button">
+    <img src="images/N/menu.png" alt="Về menu">
+</a>
+
+<!-- Nút bắt đầu game -->
+<a href="game.html" class="start-button">
+    <img src="images/N/start.png" alt="Bắt đầu game">
+</a>
+
+<!-- Danh sách nhân vật -->
+<div class="character-grid" id="characterGrid"></div>
+
+<!-- Popup thông tin -->
+<div class="popup-overlay" id="popup">
+    <div class="popup-content">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <img id="popupImage" src="" alt="">
+        <h2 id="popupName"></h2>
+        <p id="popupInfo"></p>
+    </div>
+</div>
+
+<!-- Thông báo chọn -->
+<div class="toast" id="toast">
+    <img id="toastImg" src="" alt="">
+    <span id="toastText"></span>
+</div>
+
+<script>
+const characters = [
+  {
+    id: 1,
+    name: "Bạch cốt tinh",
+    img: "images/C/nv1.png",
+    description: `
+      <b>Nguyên mẫu:</b> Bạn Nguyễn Thúy Bình .<br>
+      <b>Xuất thân:</b> Tiểu yêu của bầu trời, lang thang trong thiên không, kết hợp gió và phép thuật.<br>
+      <b>Kỹ năng:</b> <b>Tiên Công</b> - Bay trong chế độ chim 20s , nhớ nhảy lên trước khi kích hoạt kĩ năng.<br>
+      <b>Slogan:</b> “<b>Together with the wind destroys EVERYTHING</b>”
+    `
+  },
+  {
+    id: 2,
+    name: "NgMDũng",
+    img: "images/C/nv2.png",
+    description: `
+      <b>Nguyên mẫu:</b> Bạn Nguyễn Mạnh Dũng .<br>
+      <b>Xuất thân:</b> Cầu thủ bóng đá thần đồng, mang trong mình khát vọng phá khung thành.<br>
+      <b>Kỹ năng:</b> <b>Siêu Cầu</b> — Tạo quả bóng ánh sáng khổng lồ bay xuyên map phá hủy vật cản.<br>
+      <b>Slogan:</b> “<b>Không ngại gian lao , không lo vất vả</b>”
+    `
+  },
+  {
+    id: 3,
+    name: "Dád",
+    img: "images/C/nv3.png",
+    description: `
+      <b>Nguyên mẫu:</b> Bạn Nguyễn Thúy Bình .<br>
+      <b>Xuất thân:</b> Sát thủ bí ẩn, lang thang trong bóng tối, luôn mơ giấc ngủ triệu trái tim.<br>
+      <b>Kỹ năng:</b> <b>Vô Hình</b> — Trở nên tàng hình trong 15 giây, miễn nhiễm va chạm.<br>
+      <b>Slogan:</b> “<b>Thấy ta là thấy hư vô</b>.”
+    `
+  },
+  {
+    id: 4,
+    name: "cw",
+    img: "images/C/nv4.png",
+    description: `
+      <b>Nguyên mẫu:</b> Bạn Nguyễn Thu Hà .<br>
+      <b>Xuất thân:</b> Chiến binh parkour, chơi chung với ếch trong những màn nhảy vượt khó.<br>
+      <b>Kỹ năng:</b> <b>Nhảy Đôi</b> — Nhảy liên tiếp 2 lần trên không vượt qua hố và cột cao.<br>
+      <b>Slogan:</b> “<b>Cao hơn, xa hơn, tự do hơn</b>!”
+    `
+  },
+  {
+    id: 5,
+    name: "Hieus",
+    img: "images/C/nv5.png",
+    description: `
+      <b>Nguyên mẫu:</b> Bạn Chu Minh Hiếu .<br>
+      <b>Xuất thân:</b> Nghệ sĩ du ca, mang cây đàn đi khắp muôn nơi để lan truyền âm nhạc.<br>
+      <b>Kỹ năng:</b> <b>Nghệ Sĩ</b> — Tấu nhạc tâm hồn bay bổng trong thời gian nhất định.<br>
+      <b>Slogan:</b> “<b>Chẳng cái gì làm ta vui bằng âm thanh của sự sống , ngàn đời lưu công</b>”
+    `
+  },
+  {
+    id: 6,
+    name: "Babicutis",
+    img: "images/C/nv6.png",
+    description: `
+      <b>Nguyên mẫu:</b> Bạn Nguyễn Thị Ngọc Lan .<br>
+      <b>Xuất thân:</b> Công chúa của vườn bông, sinh ra trong vườn hoa huyền thoại.<br>
+      <b>Kỹ năng:</b> <b>Phân Thân</b> — Tạo bản sao ảo ảnh đi song song, mở rộng khoảng trống.<br>
+      <b>Slogan:</b> “<b>Thân ta cống hiến đất trời , ngàn đời lưu danh</b>”
+    `
+  },
+  {
+    id: 7,
+    name: "TLinh",
+    img: "images/C/nv7.png",
+    description: ` 
+      <b>Nguyên mẫu:</b> Bạn Nguyễn Ngọc Thùy Linh .<br>
+      <b>Xuất thân:</b> Thùy thủ vượt biển game, nổi tiếng vì sức mạnh phá cột.<br>
+      <b>Kỹ năng:</b> <b>Phá Cột</b> — Trong khoảng thời gian nhất định , mọi cột chắn đều vỡ vụn khi xuất hiện.<br>
+      <b>Slogan:</b> “<b> Chẳng cái gì cứng , mà ta không đập được</b>”
+    `
+  },
+  {
+    id: 8,
+    name: "Nong",
+    img: "images/C/nv8.png",
+    description: `
+      <b>Nguyên mẫu:</b> Bạn Thân Đức Long .<br>
+      <b>Xuất thân:</b> Vương giả hạnh tôn, lấy hồn làm lá chắn trong những trận chiến sinh tử.<br>
+      <b>Kỹ năng:</b> <b>Ngôi Vương</b> — Trở thành bất khả xâm phạm, phá mọi thứ trong thời gian nhất định.<br>
+      <b>Slogan:</b> “<b>Ta sinh ra để bước lên ngai vàng, đế vương bất đủ ngàn đời hiên ngang</b>.”
+    `
+  },
+  {
+    id: 9,
+    name: "Fong",
+    img: "images/C/nv9.png",
+    description: `
+      <b>Nguyên mẫu:</b> Bạn Ngô Thanh Phong .<br>
+      <b>Xuất thân:</b> Game thủ ru ngủ những mảnh đời bằng tài năng và sự bình yên.<br>
+      <b>Kỹ năng:</b> <b>Lấp Hố</b> — Lấp tất cả hố sâu trong khoảng thời gian nhất định.<br>
+      <b>Slogan:</b> “<b> Nơi nào có hố ta nấp nổi lên , nơi nào có ghềnh ta san bằng phẳng </b>.”
+    `
+  },
+  {
+    id: 10,
+    name: "Wtrang",
+    img: "images/C/nv10.png",
+    description: `
+      <b>Nguyên mẫu:</b> Bạn Chu Quỳnh Trang .<br>
+      <b>Xuất thân:</b> Thần hóa nuôi dưỡng giấc mơ, dẫn lối cho những kẻ mơ mộng.<br>
+      <b>Kỹ năng:</b> <b>Viễn Chinh</b> — Dịch chuyển tức thời đến một mốc xa, quét sạch chướng ngại.<br>
+      <b>Slogan:</b> “<b>Đánh chiếm thiên địa là việc của các ngươi , bình định giang sơn là việc Ta đang làm</b>.”
+    `
+  }
+];
+
+
+const grid = document.getElementById("characterGrid");
+
+characters.forEach(char => {
+    const card = document.createElement("div");
+    card.className = "character-card";
+    card.innerHTML = `
+        <img src="${char.img}" alt="${char.name}">
+        <div class="character-name">${char.name}</div>
+        <button class="info-button" onclick="showInfo(${char.id})">Thông tin</button>
+        <button class="select-button" onclick="selectCharacter(${char.id})">Chọn nhân vật</button>
+    `;
+    grid.appendChild(card);
+});
+
+function showInfo(id) {
+    const char = characters.find(c => c.id === id);
+    if (!char) {
+        console.error("Character not found with id:", id);
+        return;
+    }
+    document.getElementById("popupImage").src = char.img;
+    document.getElementById("popupName").innerText = char.name;
+    document.getElementById("popupInfo").innerHTML = char.description.replace(/\n/g, '<br>');
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+function selectCharacter(id) {
+    const char = characters.find(c => c.id === id);
+    const toast = document.getElementById("toast");
+    document.getElementById("toastImg").src = char.img;
+    document.getElementById("toastText").innerText = "Bạn đã chọn " + char.name;
+
+    // 👉 Lưu nhân vật đã chọn
+    localStorage.setItem("selectedCharacter", JSON.stringify(char));
+
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+</script>
+
+</body>
+</html>

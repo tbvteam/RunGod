@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="images/I/rungod.png">
+  <title>RunGod — Endless Runner</title>
+  <style> 
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: url('images/N/NM.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .game-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 4px solid #fff;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    }
+
+  
+    #gameCanvas {
+      display: block;
+      background: #222;
+      width: 960px;
+      height: 540px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      border-top: 2px solid #fff;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      width: 960px;
+      justify-content: center;
+    }
+
+    .controls button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .controls img {
+      width: 60px;
+      height: 60px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="game-title"></div>
+    <canvas id="gameCanvas" width="960" height="540"></canvas>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
