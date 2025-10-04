@@ -111,8 +111,8 @@
   const KM_MAX_HUD = 99_999_999;
   const M_SWITCH_TO_BIRD = 90_000_000; 
   const M_MEET_NPC       = 99_999_999;
-  const M_BOTTLE_TARGET  = 99_900_000;
-  const defaultGap = BLOCK * 20;  // khoảng cách mặc định giữa obstacle/hole
+  const M_BOTTLE_TARGET  = 27_112_008;
+  const defaultGap = BLOCK * 30;  // khoảng cách mặc định giữa obstacle/hole
   let spawnGap = defaultGap; 
   let groundTop    = Math.floor(canvas.height * 0.55);
   let groundBottom = canvas.height - Math.floor(2 * BLOCK);
@@ -288,7 +288,7 @@ function spawnObstacleOrHole() {
 
   function spawnPickup() {
   // Giảm tỉ lệ xuất hiện bằng cách chỉ gọi khi random nhỏ hơn 5%
-  if (Math.random() > 0.05) return; // ~5% cơ hội spawn mỗi lần gọi
+  if (Math.random() > 0.0005) return; // ~5% cơ hội spawn mỗi lần gọi
 
   const x = canvas.width + BLOCK * (2 + Math.random() * 4);
   let y;
@@ -793,7 +793,6 @@ function activateSkill() {
       player.vy = 0;
       player.hovering = false;
       duration = 20e3;   // 20s
-      cooldown = 30e3;
       toast("Kỹ năng 1: Tiên Công");
       break;
 
