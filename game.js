@@ -288,7 +288,7 @@ function spawnObstacleOrHole() {
 
   function spawnPickup() {
   // Giảm tỉ lệ xuất hiện bằng cách chỉ gọi khi random nhỏ hơn 5%
-  if (Math.random() > 0.0005) return; // ~5% cơ hội spawn mỗi lần gọi
+  if (Math.random() > 0.05) return; // ~5% cơ hội spawn mỗi lần gọi
 
   const x = canvas.width + BLOCK * (2 + Math.random() * 4);
   let y;
@@ -1331,3 +1331,4 @@ function handleGameOverClick(px, py){
 // Gắn sự kiện click
   // ============================== Additional small utility end ==============================
 })();
+
